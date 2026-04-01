@@ -1,5 +1,9 @@
 package com.pak.villagerwardrobe;
 
+import com.pak.villagerwardrobe.block.ModBlocks;
+import com.pak.villagerwardrobe.item.ModCreativeModeTabs;
+import com.pak.villagerwardrobe.item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -37,6 +41,10 @@ public class VillagerWardrobe {
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        ModCreativeModeTabs.register(modEventBus);
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
@@ -49,6 +57,14 @@ public class VillagerWardrobe {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(ModItems.WOODEN_HANGER);
+            event.accept(ModItems.METAL_HANGER);
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.accept(ModBlocks.WARDROBE);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

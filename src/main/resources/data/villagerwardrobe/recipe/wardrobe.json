@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "H": {
+      "item": "villagerwardrobe:metal_hanger"
+    }
+  },
+  "pattern": [
+    "PSP",
+    "PHP",
+    "PSP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "villagerwardrobe:wardrobe"
+  }
+}
