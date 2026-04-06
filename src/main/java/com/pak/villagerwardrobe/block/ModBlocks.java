@@ -1,6 +1,7 @@
 package com.pak.villagerwardrobe.block;
 
 import com.pak.villagerwardrobe.VillagerWardrobe;
+import com.pak.villagerwardrobe.block.custom.WardrobeBlock;
 import com.pak.villagerwardrobe.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -16,8 +17,8 @@ import java.util.function.Supplier;
 public class ModBlocks {
   public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(VillagerWardrobe.MOD_ID);
 
-  public static final DeferredBlock<Block> WARDROBE = registerBlock("wardrobe",
-      () -> new Block(BlockBehaviour.Properties.of()
+  public static final DeferredBlock<Block> WARDROBE_BLOCK = registerBlock("wardrobe_block",
+      () -> new WardrobeBlock(BlockBehaviour.Properties.of()
           .strength(2f).requiresCorrectToolForDrops().sound(SoundType.BAMBOO_WOOD)
       ));
 

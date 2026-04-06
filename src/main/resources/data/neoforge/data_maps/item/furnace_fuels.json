@@ -1,0 +1,10 @@
+{
+  "values": {
+    "villagerwardrobe:wooden_hanger": {
+      "burn_time": 400
+    },
+    "villagerwardrobe:wardrobe": {
+      "burn_time": 1200
+    }
+  }
+}

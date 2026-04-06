@@ -63,7 +63,7 @@ public class VillagerWardrobe {
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
-            event.accept(ModBlocks.WARDROBE);
+            event.accept(ModBlocks.WARDROBE_BLOCK);
         }
     }
 

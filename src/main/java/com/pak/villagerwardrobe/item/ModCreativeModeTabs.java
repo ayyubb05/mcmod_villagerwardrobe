@@ -16,12 +16,13 @@ public class ModCreativeModeTabs {
       DeferredRegister.create(Registries.CREATIVE_MODE_TAB, VillagerWardrobe.MOD_ID);
 
   public static final Supplier<CreativeModeTab> WARDROBE_ITEMS_TAB = CREATIVE_MODE_TAB.register("wardrobe_items_tab",
-      () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.WARDROBE.get()))
+      () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.WARDROBE_BLOCK.get()))
           .title(Component.translatable("creativetab.villagerwardrobe.wardrobe_items"))
           .displayItems((itemDisplayParameters, output) -> {
-            output.accept(ModBlocks.WARDROBE);
+            output.accept(ModBlocks.WARDROBE_BLOCK);
             output.accept((ModItems.WOODEN_HANGER));
             output.accept((ModItems.METAL_HANGER));
+            output.accept((ModItems.HANGER));
           }).build());
 
 
