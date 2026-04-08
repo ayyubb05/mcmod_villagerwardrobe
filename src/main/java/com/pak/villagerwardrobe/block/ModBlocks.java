@@ -19,7 +19,7 @@ public class ModBlocks {
 
   public static final DeferredBlock<Block> WARDROBE_BLOCK = registerBlock("wardrobe_block",
       () -> new WardrobeBlock(BlockBehaviour.Properties.of()
-          .strength(2f).requiresCorrectToolForDrops().sound(SoundType.BAMBOO_WOOD)
+          .noOcclusion().strength(2f).requiresCorrectToolForDrops().sound(SoundType.BAMBOO_WOOD)
       ));
 
   private static <T extends Block> DeferredBlock<T> registerBlock (String name, Supplier<T> block) {

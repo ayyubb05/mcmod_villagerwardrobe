@@ -1,9 +1,16 @@
 package com.pak.villagerwardrobe;
 
 import com.pak.villagerwardrobe.block.ModBlocks;
+import com.pak.villagerwardrobe.block.entity.ModBlockEntities;
+import com.pak.villagerwardrobe.entity.ModEntities;
+import com.pak.villagerwardrobe.entity.client.TrainerRenderer;
 import com.pak.villagerwardrobe.item.ModCreativeModeTabs;
 import com.pak.villagerwardrobe.item.ModItems;
+import com.pak.villagerwardrobe.screen.ModMenuTypes;
+import com.pak.villagerwardrobe.screen.custom.WardrobeScreen;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -44,6 +51,9 @@ public class VillagerWardrobe {
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModEntities.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -73,10 +83,15 @@ public class VillagerWardrobe {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = VillagerWardrobe.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    static class ClientModEvents {
+    @EventBusSubscriber(modid = VillagerWardrobe.MOD_ID, value = Dist.CLIENT)
+    public static class ClientModEvents {
         @SubscribeEvent
-        static void onClientSetup(FMLClientSetupEvent event) {
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.TRAINER.get(), TrainerRenderer::new);
          }
-    }
+
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(ModMenuTypes.WARDROBE_MENU.get(), WardrobeScreen::new);
+        }    }
 }
