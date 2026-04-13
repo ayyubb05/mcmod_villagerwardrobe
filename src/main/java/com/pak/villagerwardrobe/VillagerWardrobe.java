@@ -2,15 +2,23 @@ package com.pak.villagerwardrobe;
 
 import com.pak.villagerwardrobe.block.ModBlocks;
 import com.pak.villagerwardrobe.block.entity.ModBlockEntities;
+import com.pak.villagerwardrobe.component.ModDataComponents;
+import com.pak.villagerwardrobe.component.custom.OutfitComponent;
 import com.pak.villagerwardrobe.entity.ModEntities;
 import com.pak.villagerwardrobe.entity.client.TrainerRenderer;
 import com.pak.villagerwardrobe.item.ModCreativeModeTabs;
 import com.pak.villagerwardrobe.item.ModItems;
 import com.pak.villagerwardrobe.screen.ModMenuTypes;
 import com.pak.villagerwardrobe.screen.custom.WardrobeScreen;
+import com.pak.villagerwardrobe.util.WardrobeOutfitLoader;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -54,6 +62,7 @@ public class VillagerWardrobe {
         ModEntities.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModDataComponents.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -91,7 +100,29 @@ public class VillagerWardrobe {
          }
 
         @SubscribeEvent
+        public static void onItemTooltip(ItemTooltipEvent event) {
+            ItemStack stack = event.getItemStack();
+
+            // Check if this item has an outfit attached
+            OutfitComponent outfit = stack.get(ModDataComponents.OUTFIT.get());
+
+            if (outfit != null) {
+                event.getToolTip().add(
+                    Component.literal("Outfit: " + outfit.outfitName())
+                        .withStyle(ChatFormatting.GOLD)
+                );
+            }
+        }
+
+        @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.WARDROBE_MENU.get(), WardrobeScreen::new);
-        }    }
+        }
+
+        @SubscribeEvent
+        public static void onAddReloadListeners(AddReloadListenerEvent event) {
+            event.addListener(WardrobeOutfitLoader.INSTANCE);
+        }
+    }
+
 }

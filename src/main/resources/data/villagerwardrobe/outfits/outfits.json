@@ -1,0 +1,29 @@
+{
+  "outfits": [
+    {
+      "id": "outfit_one",
+      "display_name": "Outfit One",
+      "texture": "villagerwardrobe:textures/entity/trainer/mcskins_pokemon_trainer1.png"
+    },
+    {
+      "id": "outfit_two",
+      "display_name": "Outfit Two",
+      "texture": "villagerwardrobe:textures/entity/trainer/mcskins_pokemon_trainer2.png"
+    },
+    {
+      "id": "outfit_three",
+      "display_name": "Outfit Threeeeeeeeeeeeeeee",
+      "texture": "villagerwardrobe:textures/entity/trainer/mcskins_pokemon_trainer3.png"
+    },
+    {
+      "id": "outfit_four",
+      "display_name": "Outfit Four",
+      "texture": "villagerwardrobe:textures/entity/trainer/mcskins_pokemon_trainer4.png"
+    },
+    {
+      "id": "outfit_five",
+      "display_name": "Outfit Fiveeeeeeeeeeeeeeeeeeeeeeeeee",
+      "texture": "villagerwardrobe:textures/entity/trainer/mcskins_pokemon_trainer5.png"
+    }
+  ]
+}

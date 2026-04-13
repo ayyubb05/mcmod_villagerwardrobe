@@ -12,7 +12,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModMenuTypes {
-  public static final DeferredRegister<MenuType<?>> MENUS =
+  public static final DeferredRegister<MenuType<?>> MENU_TYPES =
       DeferredRegister.create(Registries.MENU, VillagerWardrobe.MOD_ID);
 
   public static final DeferredHolder<MenuType<?>, MenuType<WardrobeMenu>> WARDROBE_MENU =
@@ -20,10 +20,10 @@ public class ModMenuTypes {
 
   private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name,
                                                                                                             IContainerFactory<T> factory){
-    return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
+    return MENU_TYPES.register(name, () -> IMenuTypeExtension.create(factory));
   }
 
   public static void register(IEventBus eventBus){
-    MENUS.register(eventBus);
+    MENU_TYPES.register(eventBus);
   }
 }

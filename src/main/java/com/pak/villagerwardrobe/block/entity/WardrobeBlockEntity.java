@@ -1,6 +1,7 @@
 package com.pak.villagerwardrobe.block.entity;
 
 import com.pak.villagerwardrobe.screen.custom.WardrobeMenu;
+import com.pak.villagerwardrobe.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,6 +28,11 @@ public class WardrobeBlockEntity extends BlockEntity implements MenuProvider {
     @Override
     protected int getStackLimit(int slot, ItemStack stack) {
       return 1;
+    }
+
+    @Override
+    public boolean isItemValid(int slot, ItemStack stack) {
+      return stack.is(ModTags.Items.TRANSFORMABLE_ITEMS);
     }
 
     @Override
@@ -64,7 +71,7 @@ public class WardrobeBlockEntity extends BlockEntity implements MenuProvider {
   @Override
   protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
     super.loadAdditional(tag, registries);
-    inventory.deserializeNBT(registries, tag.getCompound("inventory "));
+    inventory.deserializeNBT(registries, tag.getCompound("inventory"));
   }
 
 
@@ -78,6 +85,10 @@ public class WardrobeBlockEntity extends BlockEntity implements MenuProvider {
     return new WardrobeMenu(containerId, playerInventory, this);
   }
 
+  public static void tick(Level level, BlockPos pos, BlockState state, WardrobeBlockEntity be) {
+    // nothing needed here yet, but having the ticker registered
+    // ensures the container syncs properly
+  }
 
   @Override
   public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
@@ -88,6 +99,4 @@ public class WardrobeBlockEntity extends BlockEntity implements MenuProvider {
   public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
     return saveWithoutMetadata(registries);
   }
-
-
 }

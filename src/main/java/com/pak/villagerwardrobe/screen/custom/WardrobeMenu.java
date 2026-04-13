@@ -2,7 +2,10 @@ package com.pak.villagerwardrobe.screen.custom;
 
 import com.pak.villagerwardrobe.block.ModBlocks;
 import com.pak.villagerwardrobe.block.entity.WardrobeBlockEntity;
+import com.pak.villagerwardrobe.component.ModDataComponents;
+import com.pak.villagerwardrobe.component.custom.OutfitComponent;
 import com.pak.villagerwardrobe.screen.ModMenuTypes;
+import com.pak.villagerwardrobe.util.WardrobeOutfitLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
+
+import java.util.List;
 
 public class WardrobeMenu extends AbstractContainerMenu {
   public final WardrobeBlockEntity blockEntity ;
@@ -27,12 +32,45 @@ public class WardrobeMenu extends AbstractContainerMenu {
     this.blockEntity = ((WardrobeBlockEntity) blockEntity);
     this.level = inv.player.level();
 
-    addPlayerInventory(inv);
-    addPlayerHotbar(inv);
+    addPlayerHotbar(inv);       // now slots 0-8
+    addPlayerInventory(inv);    // now slots 9-35
 
-    this.addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 80, 35));
+    this.addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 15, 47)); // now slot 36
   }
 
+
+  private void addPlayerInventory(Inventory playerInventory) {
+    for (int i = 0; i < 3; ++i) {
+      for (int l = 0; l < 9; ++l) {
+        this.addSlot(new  Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+      }
+    }
+  }
+
+  private void addPlayerHotbar(Inventory playerInventory) {
+    for (int i = 0; i < 9; ++i) {
+      this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+    }
+  }
+
+  @Override
+  public boolean clickMenuButton(Player player, int id) {
+    // id will be 0, 1, or 2 depending on which row was clicked
+    List<Outfit> outfits = WardrobeOutfitLoader.INSTANCE.getAllOutfits();
+
+    if (id < 0 || id >= outfits.size()) return false;
+
+    ItemStack stack = this.blockEntity.inventory.getStackInSlot(0);
+    if (stack.isEmpty()) return false;
+
+    // Attach the outfit component to the item
+    // When player clicks an option in WardrobeScreen:
+    stack.set(ModDataComponents.OUTFIT.get(), new OutfitComponent(outfits.get(id).id()));
+    // Mark the block entity dirty so it saves
+    this.blockEntity.setChanged();
+
+    return true;
+  }
 
   // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
   // must assign a slot number to each of the slots used by the GUI.
@@ -85,23 +123,8 @@ public class WardrobeMenu extends AbstractContainerMenu {
   }
 
 
-
   @Override
   public boolean stillValid(Player player) {
     return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, ModBlocks.WARDROBE_BLOCK.get());
-  }
-
-  private void addPlayerInventory(Inventory playerInventory) {
-    for (int i = 0; i < 3; ++i) {
-      for (int l = 0; l < 9; ++l) {
-        this.addSlot(new  Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
-      }
-    }
-  }
-
-  private void addPlayerHotbar(Inventory playerInventory) {
-    for (int i = 0; i < 9; ++i) {
-      this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-    }
   }
 }
